@@ -48,6 +48,7 @@ import java.util.Locale
 @Composable
 fun ToDoListPage(viewModel: ToDoViewModel) {
 
+    val focusManager = LocalFocusManager.current
     val todoList by viewModel.toDoList.observeAsState()
     var inputText by remember {
         mutableStateOf("")
@@ -73,6 +74,7 @@ fun ToDoListPage(viewModel: ToDoViewModel) {
             Button(onClick = {
                 viewModel.addToDo(inputText)
                 inputText = ""
+                focusManager.clearFocus()
             }) {
                 Text(text = "Add")
             }
@@ -87,6 +89,7 @@ fun ToDoListPage(viewModel: ToDoViewModel) {
                         }, onUpdate = {
                             viewModel.updateToDo(item.id, inputText)
                             inputText = ""
+                            focusManager.clearFocus()
                         }, onClickRow = { clickedItem ->
                             // Handle row click here
                             Log.e("Title: ",""+clickedItem.title)
